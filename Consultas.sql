@@ -1,0 +1,486 @@
+-- Ingrid Reupke Sbeguen Moran
+-- ra: 2349388
+-- https://github.com/ingridrsm/bd1
+
+DROP TABLE IF EXISTS ALUNO, TURMA, AULA, SALA_DE_AULA, PROFESSOR, COREOGRAFO, COREOGRAFIA, MUSICA, FIGURINO, FIGURINISTA, ALUNO_PARTICIPA_TURMA, TURMA_TEM_AULA, AULA_POSSUI_SALA, PROF_MINISTRA_AULA, TURMA_DANCA_COREO, COREO_TEM_MUSICA, COREO_TEM_FIGURINO, FIGURINISTA_FAZ_FIGURINO, COREOGRAFIA_CRIADA;
+
+CREATE TABLE ALUNO(
+    id_aluno INTEGER,
+    nome_aluno VARCHAR(50),
+    telefone_aluno CHAR(11),
+    PRIMARY KEY(id_aluno)
+);
+
+CREATE TABLE TURMA(
+    codigo_turma INTEGER,
+    nivel INTEGER,
+    ano INTEGER,
+    PRIMARY KEY(codigo_turma)
+);
+
+CREATE TABLE AULA(
+    codigo_aula INTEGER,
+    horario CHAR(5),
+    data_aula CHAR(10),
+    estilo_de_dança VARCHAR(30),
+    PRIMARY KEY(codigo_aula)
+);
+
+CREATE TABLE SALA_DE_AULA(
+    codigo_sala INTEGER,
+    andar INTEGER,
+    bloco CHAR(1),
+    PRIMARY KEY(codigo_sala)
+);
+
+CREATE TABLE PROFESSOR(
+    cpf_prof CHAR(11),
+    nome_prof VARCHAR(50),
+    telefone_prof CHAR(11),
+    PRIMARY KEY(cpf_prof)
+);
+
+CREATE TABLE COREOGRAFO(
+    cpf_coreo CHAR(11),
+    nome_coreo VARCHAR(50),
+    telefone_coreo CHAR(11),
+    PRIMARY KEY(cpf_coreo)
+);
+
+CREATE TABLE COREOGRAFIA(
+    codigo_coreo INTEGER,
+    tema VARCHAR(50),
+    duracao_coreo CHAR(5),
+    PRIMARY KEY(codigo_coreo)
+);
+
+CREATE TABLE MUSICA(
+    nome_musica VARCHAR(50),
+    artista VARCHAR(50),
+    duracao_musica CHAR(5),
+    estilo_musica VARCHAR(20),
+    PRIMARY KEY(nome_musica)
+);
+
+CREATE TABLE FIGURINO(
+    id_figurino INTEGER,
+    cor VARCHAR(20),
+    estilo_figurino VARCHAR(20),
+    PRIMARY KEY(id_figurino)
+);
+
+CREATE TABLE FIGURINISTA(
+    cpf_figurinista CHAR(11),
+    nome_figurinista VARCHAR(50),
+    telefone_figurinista CHAR(11),
+    PRIMARY KEY(cpf_figurinista)
+);
+
+CREATE TABLE ALUNO_PARTICIPA_TURMA(
+    id_aluno INTEGER,
+    codigo_turma INTEGER,
+    PRIMARY KEY(id_aluno, codigo_turma),
+    FOREIGN KEY(id_aluno) REFERENCES ALUNO(id_aluno),
+    FOREIGN KEY(codigo_turma) REFERENCES TURMA(codigo_turma)
+);
+
+CREATE TABLE TURMA_TEM_AULA(
+    codigo_turma INTEGER,
+    codigo_aula INTEGER,
+    PRIMARY KEY(codigo_aula),
+    FOREIGN KEY(codigo_aula) REFERENCES AULA(codigo_aula),
+    FOREIGN KEY(codigo_turma) REFERENCES TURMA(codigo_turma)
+);
+
+CREATE TABLE AULA_POSSUI_SALA(
+    codigo_aula INTEGER,
+    codigo_sala INTEGER,
+    PRIMARY KEY(codigo_aula),
+    FOREIGN KEY(codigo_aula) REFERENCES AULA(codigo_aula),
+    FOREIGN KEY(codigo_sala) REFERENCES SALA_DE_AULA(codigo_sala)
+);
+
+CREATE TABLE PROF_MINISTRA_AULA(
+    codigo_aula INTEGER,
+    cpf_prof CHAR(11),
+    PRIMARY KEY(codigo_aula),
+    FOREIGN KEY(codigo_aula) REFERENCES AULA(codigo_aula),
+    FOREIGN KEY(cpf_prof) REFERENCES PROFESSOR(cpf_prof)
+);
+
+CREATE TABLE TURMA_DANCA_COREO(
+    codigo_turma INTEGER,
+    codigo_coreo INTEGER,
+    PRIMARY KEY(codigo_turma),
+    FOREIGN KEY(codigo_turma) REFERENCES TURMA(codigo_turma),
+    FOREIGN KEY(codigo_coreo) REFERENCES COREOGRAFIA(codigo_coreo)
+);
+
+CREATE TABLE COREO_TEM_MUSICA(
+    codigo_coreo INTEGER,
+    nome_musica CHAR(50),
+    PRIMARY KEY(codigo_coreo, nome_musica),
+    FOREIGN KEY(codigo_coreo) REFERENCES COREOGRAFIA(codigo_coreo),
+    FOREIGN KEY(nome_musica) REFERENCES MUSICA(nome_musica)
+);
+
+CREATE TABLE COREO_TEM_FIGURINO(
+    codigo_coreo INTEGER,
+    id_figurino INTEGER,
+    PRIMARY KEY(id_figurino),
+    FOREIGN KEY(id_figurino) REFERENCES FIGURINO(id_figurino),
+    FOREIGN KEY(codigo_coreo) REFERENCES COREOGRAFIA(codigo_coreo)
+);
+
+CREATE TABLE FIGURINISTA_FAZ_FIGURINO(
+    id_figurino INTEGER,
+    cpf_figurinista CHAR(11),
+    PRIMARY KEY(id_figurino),
+    FOREIGN KEY(id_figurino) REFERENCES FIGURINO(id_figurino),
+    FOREIGN KEY(cpf_figurinista) REFERENCES FIGURINISTA(cpf_figurinista)
+);
+
+CREATE TABLE COREOGRAFIA_CRIADA(
+    cpf_prof CHAR(11),
+    cpf_coreo CHAR(11),
+    codigo_coreo INTEGER,
+    PRIMARY KEY(codigo_coreo),
+    FOREIGN KEY(codigo_coreo) REFERENCES COREOGRAFIA(codigo_coreo),
+    FOREIGN KEY(cpf_prof) REFERENCES PROFESSOR(cpf_prof),
+    FOREIGN KEY(cpf_coreo) REFERENCES COREOGRAFO(cpf_coreo)
+);
+
+INSERT INTO ALUNO(id_aluno, nome_aluno, telefone_aluno) VALUES(29033, 'Maria Fernanda', '44991239832');
+INSERT INTO ALUNO(id_aluno, nome_aluno, telefone_aluno) VALUES(30042, 'João Pedro', '11987654321');
+INSERT INTO ALUNO(id_aluno, nome_aluno, telefone_aluno) VALUES(23764, 'Laura da Silva', '11966540989');
+INSERT INTO ALUNO(id_aluno, nome_aluno, telefone_aluno) VALUES(29041, 'Maria Eduarda', '4498934507');
+INSERT INTO ALUNO(id_aluno, nome_aluno, telefone_aluno) VALUES(28212, 'Andrea Santos', '4199732651');
+INSERT INTO ALUNO(id_aluno, nome_aluno, telefone_aluno) VALUES(25182, 'José Roberto', '1290870775');
+INSERT INTO ALUNO(id_aluno, nome_aluno, telefone_aluno) VALUES(29998, 'Pedro Oliveira', '19999892398');
+INSERT INTO ALUNO(id_aluno, nome_aluno, telefone_aluno) VALUES(28762, 'Alberto Fernando', '4497760923');
+INSERT INTO ALUNO(id_aluno, nome_aluno, telefone_aluno) VALUES(24543, 'Luiza Souza', '4491293343');
+INSERT INTO ALUNO(id_aluno, nome_aluno, telefone_aluno) VALUES(30102, 'Emily Borges', '4499675981');
+INSERT INTO ALUNO(id_aluno, nome_aluno, telefone_aluno) VALUES(28777, 'Luis Alvaro', '13987894598');
+
+INSERT INTO TURMA(codigo_turma, nivel, ano) VALUES(100, 1, 3);
+INSERT INTO TURMA(codigo_turma, nivel, ano) VALUES(101, 1, 1);
+INSERT INTO TURMA(codigo_turma, nivel, ano) VALUES(102, 5, 2);
+INSERT INTO TURMA(codigo_turma, nivel, ano) VALUES(103, 9, 4);
+INSERT INTO TURMA(codigo_turma, nivel, ano) VALUES(112, 8, 6);
+INSERT INTO TURMA(codigo_turma, nivel, ano) VALUES(108, 3, 9);
+INSERT INTO TURMA(codigo_turma, nivel, ano) VALUES(115, 3, 2);
+INSERT INTO TURMA(codigo_turma, nivel, ano) VALUES(111, 1, 3);
+INSERT INTO TURMA(codigo_turma, nivel, ano) VALUES(105, 4, 5);
+INSERT INTO TURMA(codigo_turma, nivel, ano) VALUES(106, 8, 6);
+INSERT INTO TURMA(codigo_turma, nivel, ano) VALUES(113, 10, 7);
+INSERT INTO TURMA(codigo_turma, nivel, ano) VALUES(107, 5, 8);
+
+INSERT INTO AULA(codigo_aula, horario, data_aula, estilo_de_dança) VALUES(00431, '15:30', '13/03/2019', 'Ballet Clássico');
+INSERT INTO AULA(codigo_aula, horario, data_aula, estilo_de_dança) VALUES(00798, '17:00', '11/07/2019', 'Ballet Clássico');
+INSERT INTO AULA(codigo_aula, horario, data_aula, estilo_de_dança) VALUES(01002, '15:30', '28/09/2019', 'Ballet Clássico');
+INSERT INTO AULA(codigo_aula, horario, data_aula, estilo_de_dança) VALUES(00298, '19:00', '02/02/2019', 'Ballet Contemporâneo');
+INSERT INTO AULA(codigo_aula, horario, data_aula, estilo_de_dança) VALUES(00898, '21:30', '10/08/2019', 'Ballet Contemporâneo');
+INSERT INTO AULA(codigo_aula, horario, data_aula, estilo_de_dança) VALUES(00676, '16:30', '25/04/2019', 'Jazz');
+INSERT INTO AULA(codigo_aula, horario, data_aula, estilo_de_dança) VALUES(01234, '16:30', '31/11/2019', 'Jazz');
+INSERT INTO AULA(codigo_aula, horario, data_aula, estilo_de_dança) VALUES(00598, '17:00', '04/04/2019', 'Jazz');
+INSERT INTO AULA(codigo_aula, horario, data_aula, estilo_de_dança) VALUES(00901, '14:30', '12/09/2019', 'Sapateado');
+INSERT INTO AULA(codigo_aula, horario, data_aula, estilo_de_dança) VALUES(01104, '15:00', '27/10/2019', 'Sapateado');
+INSERT INTO AULA(codigo_aula, horario, data_aula, estilo_de_dança) VALUES(00974, '14:30', '11/07/2019', 'Sapateado');
+
+INSERT INTO SALA_DE_AULA(codigo_sala, andar, bloco) VALUES(001, 1, 'A');
+INSERT INTO SALA_DE_AULA(codigo_sala, andar, bloco) VALUES(002, 2, 'A');
+INSERT INTO SALA_DE_AULA(codigo_sala, andar, bloco) VALUES(003, 3, 'A');
+INSERT INTO SALA_DE_AULA(codigo_sala, andar, bloco) VALUES(010, 1, 'B');
+INSERT INTO SALA_DE_AULA(codigo_sala, andar, bloco) VALUES(011, 2, 'B');
+INSERT INTO SALA_DE_AULA(codigo_sala, andar, bloco) VALUES(012, 3, 'B');
+INSERT INTO SALA_DE_AULA(codigo_sala, andar, bloco) VALUES(100, 1, 'C');
+INSERT INTO SALA_DE_AULA(codigo_sala, andar, bloco) VALUES(101, 2, 'C');
+INSERT INTO SALA_DE_AULA(codigo_sala, andar, bloco) VALUES(102, 3, 'C');
+INSERT INTO SALA_DE_AULA(codigo_sala, andar, bloco) VALUES(103, 4, 'C');
+
+INSERT INTO PROFESSOR(cpf_prof, nome_prof, telefone_prof) VALUES('78702278912', 'Mauri Barateiro Orriça', '44974639875');
+INSERT INTO PROFESSOR(cpf_prof, nome_prof, telefone_prof) VALUES('57558622069', 'Dominic Mourinho Palhares', '44940863116');
+INSERT INTO PROFESSOR(cpf_prof, nome_prof, telefone_prof) VALUES('22635044007', 'Abraão Vinhas Zarco', '44926752798');
+INSERT INTO PROFESSOR(cpf_prof, nome_prof, telefone_prof) VALUES('47172093038', 'Jayson Félix Aldeia', '44954262655');
+INSERT INTO PROFESSOR(cpf_prof, nome_prof, telefone_prof) VALUES('60506623041', 'Amélia Viana Severiano', '11926644752');
+INSERT INTO PROFESSOR(cpf_prof, nome_prof, telefone_prof) VALUES('18295205048', 'Salvador Boto Boga', '12960452509');
+INSERT INTO PROFESSOR(cpf_prof, nome_prof, telefone_prof) VALUES('66267638065', 'Sofia Velasques Manso', '11960840065');
+INSERT INTO PROFESSOR(cpf_prof, nome_prof, telefone_prof) VALUES('48387749079', 'Marco Neres Castanho', '13912657837');
+INSERT INTO PROFESSOR(cpf_prof, nome_prof, telefone_prof) VALUES('54176551046', 'Sílvia Rosado Maranhão', '41957570810');
+INSERT INTO PROFESSOR(cpf_prof, nome_prof, telefone_prof) VALUES('27926668036', 'Lurdes Arouca Varanda', '41929179435');
+
+INSERT INTO COREOGRAFO(cpf_coreo, nome_coreo, telefone_coreo) VALUES('16237790063', 'Iago Castanheira Pegado', '11934299315');
+INSERT INTO COREOGRAFO(cpf_coreo, nome_coreo, telefone_coreo) VALUES('45485681077', 'Mellyssa Lacerda Vaz', '11975258060');
+INSERT INTO COREOGRAFO(cpf_coreo, nome_coreo, telefone_coreo) VALUES('62452128040', 'Geovanna Vilhena Goulart', '11953298661');
+INSERT INTO COREOGRAFO(cpf_coreo, nome_coreo, telefone_coreo) VALUES('15017874038', 'Jil Tedim Farinha', '21952300007');
+INSERT INTO COREOGRAFO(cpf_coreo, nome_coreo, telefone_coreo) VALUES('54175044086', 'Anastacia Leal Brito', '22924952225');
+INSERT INTO COREOGRAFO(cpf_coreo, nome_coreo, telefone_coreo) VALUES('09349743060', 'Kamila Severo Rocha', '44935031504');
+INSERT INTO COREOGRAFO(cpf_coreo, nome_coreo, telefone_coreo) VALUES('16759043081', 'Duarte Bencatel Semedo', '44972580383');
+INSERT INTO COREOGRAFO(cpf_coreo, nome_coreo, telefone_coreo) VALUES('17579811014', 'Martin Aranha Bacelar', '41979622160');
+INSERT INTO COREOGRAFO(cpf_coreo, nome_coreo, telefone_coreo) VALUES('97269392080', 'Renata Ferraço Prada', '44939302626');
+INSERT INTO COREOGRAFO(cpf_coreo, nome_coreo, telefone_coreo) VALUES('77136768055', 'Layra Lobato Girão', '44978506452');
+
+INSERT INTO COREOGRAFIA(codigo_coreo, tema, duracao_coreo) VALUES(9846, 'Flores', '6:12');
+INSERT INTO COREOGRAFIA(codigo_coreo, tema, duracao_coreo) VALUES(9941, 'Baile', '10:11');
+INSERT INTO COREOGRAFIA(codigo_coreo, tema, duracao_coreo) VALUES(1172, 'Neve', '3:32');
+INSERT INTO COREOGRAFIA(codigo_coreo, tema, duracao_coreo) VALUES(7094, 'Banda', '3:50');
+INSERT INTO COREOGRAFIA(codigo_coreo, tema, duracao_coreo) VALUES(4131, 'Brasil', '3:46');
+INSERT INTO COREOGRAFIA(codigo_coreo, tema, duracao_coreo) VALUES(4146, 'Xadrez', '6:59');
+INSERT INTO COREOGRAFIA(codigo_coreo, tema, duracao_coreo) VALUES(4552, 'Sete Anões', '8:03');
+INSERT INTO COREOGRAFIA(codigo_coreo, tema, duracao_coreo) VALUES(5092, 'Los Angeles', '8:41');
+INSERT INTO COREOGRAFIA(codigo_coreo, tema, duracao_coreo) VALUES(5526, 'Cozinheiros', '8:58');
+INSERT INTO COREOGRAFIA(codigo_coreo, tema, duracao_coreo) VALUES(9526, 'Cisne', '12:01');
+
+INSERT INTO MUSICA(nome_musica, artista, duracao_musica, estilo_musica) VALUES('Eine kleine Nachtmusik', 'Mozart', '18:55', 'Clássica');
+INSERT INTO MUSICA(nome_musica, artista, duracao_musica, estilo_musica) VALUES('Toccata and Fugue in D minor', 'J. S. Bach', '9:32', 'Clássica');
+INSERT INTO MUSICA(nome_musica, artista, duracao_musica, estilo_musica) VALUES('Symphony No.5 in C minor', 'Beethoven', '4:28', 'Clássica');
+INSERT INTO MUSICA(nome_musica, artista, duracao_musica, estilo_musica) VALUES('Boléro', 'Ravel', '8:32', 'Clássica');
+INSERT INTO MUSICA(nome_musica, artista, duracao_musica, estilo_musica) VALUES('Poker Face', 'Lady Gaga', '3:34', 'Pop');
+INSERT INTO MUSICA(nome_musica, artista, duracao_musica, estilo_musica) VALUES('Part of Me', 'Katy Perry', '3:40', 'Pop');
+INSERT INTO MUSICA(nome_musica, artista, duracao_musica, estilo_musica) VALUES('Dear Mama', '2Pac', '4:12', 'HipHop');
+INSERT INTO MUSICA(nome_musica, artista, duracao_musica, estilo_musica) VALUES('O Leãozinho', 'Caetano Veloso', '2:50', 'MPB');
+INSERT INTO MUSICA(nome_musica, artista, duracao_musica, estilo_musica) VALUES('Voltei, Recife', 'Alceu Valença', '3:20', 'Axé');
+INSERT INTO MUSICA(nome_musica, artista, duracao_musica, estilo_musica) VALUES('Dance of the Knights', 'Prokofiev', '5:29', 'Clássica');
+
+INSERT INTO FIGURINO(id_figurino, cor, estilo_figurino) VALUES(2211, 'Roxo', 'Tutu');
+INSERT INTO FIGURINO(id_figurino, cor, estilo_figurino) VALUES(8140, 'Laranja e Vermelho', 'Esportivo');
+INSERT INTO FIGURINO(id_figurino, cor, estilo_figurino) VALUES(3977, 'Azul e Branco', 'Tutu');
+INSERT INTO FIGURINO(id_figurino, cor, estilo_figurino) VALUES(8573, 'Rosa', 'Esportivo');
+INSERT INTO FIGURINO(id_figurino, cor, estilo_figurino) VALUES(5663, 'Preto', 'Moderno');
+INSERT INTO FIGURINO(id_figurino, cor, estilo_figurino) VALUES(6780, 'Amarelo e preto', 'Moderno');
+INSERT INTO FIGURINO(id_figurino, cor, estilo_figurino) VALUES(1483, 'Azul', 'Saia longa');
+INSERT INTO FIGURINO(id_figurino, cor, estilo_figurino) VALUES(1120, 'Roxo', 'Vestido longo');
+INSERT INTO FIGURINO(id_figurino, cor, estilo_figurino) VALUES(5847, 'Roxo, rosa e lilás', 'Vestido tubo');
+INSERT INTO FIGURINO(id_figurino, cor, estilo_figurino) VALUES(7940, 'Dourado', 'Esportivo');
+
+INSERT INTO FIGURINISTA(cpf_figurinista, nome_figurinista, telefone_figurinista) VALUES('40800365070', 'Nicola Casalinho Vila-Chã', '44973956708');
+INSERT INTO FIGURINISTA(cpf_figurinista, nome_figurinista, telefone_figurinista) VALUES('61367909040', 'Laysla Bezerril Pimentel', '44970065275');
+INSERT INTO FIGURINISTA(cpf_figurinista, nome_figurinista, telefone_figurinista) VALUES('70541257030', 'Ícaro Marques Homem', '44915466406');
+INSERT INTO FIGURINISTA(cpf_figurinista, nome_figurinista, telefone_figurinista) VALUES('90008560005', 'Danilo Canhão Vasconcelos', '44978203280');
+INSERT INTO FIGURINISTA(cpf_figurinista, nome_figurinista, telefone_figurinista) VALUES('95237179010', 'Hermano Silvestre Rijo', '41946372639');
+INSERT INTO FIGURINISTA(cpf_figurinista, nome_figurinista, telefone_figurinista) VALUES('20210649054', 'Lidiana Quintais Torquato', '41993940679');
+INSERT INTO FIGURINISTA(cpf_figurinista, nome_figurinista, telefone_figurinista) VALUES('16337087054', 'Jóni Mata Aveiro', '11932183406');
+INSERT INTO FIGURINISTA(cpf_figurinista, nome_figurinista, telefone_figurinista) VALUES('24126903089', 'Ágata Borges Peseiro', '11964836550');
+INSERT INTO FIGURINISTA(cpf_figurinista, nome_figurinista, telefone_figurinista) VALUES('22197250060', 'Ezra Maior Uchoa', '11957079978');
+INSERT INTO FIGURINISTA(cpf_figurinista, nome_figurinista, telefone_figurinista) VALUES('55676296054', 'Nikolas Filgueiras Outeiro', '11939357497');
+
+INSERT INTO PROF_MINISTRA_AULA(codigo_aula, cpf_prof) VALUES (00901,'78702278912');
+INSERT INTO PROF_MINISTRA_AULA(codigo_aula, cpf_prof) VALUES (01104,'66267638065');
+INSERT INTO PROF_MINISTRA_AULA(codigo_aula, cpf_prof) VALUES (00974,'78702278912');
+INSERT INTO PROF_MINISTRA_AULA(codigo_aula, cpf_prof) VALUES (00598,'27926668036');
+INSERT INTO PROF_MINISTRA_AULA(codigo_aula, cpf_prof) VALUES (01234,'54176551046');
+INSERT INTO PROF_MINISTRA_AULA(codigo_aula, cpf_prof) VALUES (00676,'48387749079');
+INSERT INTO PROF_MINISTRA_AULA(codigo_aula, cpf_prof) VALUES (00898,'57558622069');
+INSERT INTO PROF_MINISTRA_AULA(codigo_aula, cpf_prof) VALUES (00298,'57558622069');
+INSERT INTO PROF_MINISTRA_AULA(codigo_aula, cpf_prof) VALUES (01002,'60506623041');
+INSERT INTO PROF_MINISTRA_AULA(codigo_aula, cpf_prof) VALUES (00798,'18295205048');
+INSERT INTO PROF_MINISTRA_AULA(codigo_aula, cpf_prof) VALUES (00431,'60506623041');
+
+INSERT INTO AULA_POSSUI_SALA(codigo_aula, codigo_sala) VALUES (00901, 102);
+INSERT INTO AULA_POSSUI_SALA(codigo_aula, codigo_sala) VALUES (01104, 003);
+INSERT INTO AULA_POSSUI_SALA(codigo_aula, codigo_sala) VALUES (00298, 003);
+INSERT INTO AULA_POSSUI_SALA(codigo_aula, codigo_sala) VALUES (00898, 100);
+INSERT INTO AULA_POSSUI_SALA(codigo_aula, codigo_sala) VALUES (00974, 100);
+INSERT INTO AULA_POSSUI_SALA(codigo_aula, codigo_sala) VALUES (00676, 101);
+INSERT INTO AULA_POSSUI_SALA(codigo_aula, codigo_sala) VALUES (01234, 101);
+INSERT INTO AULA_POSSUI_SALA(codigo_aula, codigo_sala) VALUES (01002, 101);
+INSERT INTO AULA_POSSUI_SALA(codigo_aula, codigo_sala) VALUES (00798, 012);
+INSERT INTO AULA_POSSUI_SALA(codigo_aula, codigo_sala) VALUES (00431, 010);
+
+INSERT INTO TURMA_TEM_AULA(codigo_turma, codigo_aula) VALUES (100, 00901);
+INSERT INTO TURMA_TEM_AULA(codigo_turma, codigo_aula) VALUES (111, 00798);
+INSERT INTO TURMA_TEM_AULA(codigo_turma, codigo_aula) VALUES (101, 00676); 
+INSERT INTO TURMA_TEM_AULA(codigo_turma, codigo_aula) VALUES (103, 00974);
+INSERT INTO TURMA_TEM_AULA(codigo_turma, codigo_aula) VALUES (102, 00298);
+INSERT INTO TURMA_TEM_AULA(codigo_turma, codigo_aula) VALUES (112, 00598);
+INSERT INTO TURMA_TEM_AULA(codigo_turma, codigo_aula) VALUES (100, 01234);
+INSERT INTO TURMA_TEM_AULA(codigo_turma, codigo_aula) VALUES (101, 01002);
+INSERT INTO TURMA_TEM_AULA(codigo_turma, codigo_aula) VALUES (105, 00431);
+INSERT INTO TURMA_TEM_AULA(codigo_turma, codigo_aula) VALUES (105, 01104);
+
+INSERT INTO ALUNO_PARTICIPA_TURMA(id_aluno, codigo_turma) VALUES (29033, 100);
+INSERT INTO ALUNO_PARTICIPA_TURMA(id_aluno, codigo_turma) VALUES (29033, 101);
+INSERT INTO ALUNO_PARTICIPA_TURMA(id_aluno, codigo_turma) VALUES (30042, 100);
+INSERT INTO ALUNO_PARTICIPA_TURMA(id_aluno, codigo_turma) VALUES (23764, 102);
+INSERT INTO ALUNO_PARTICIPA_TURMA(id_aluno, codigo_turma) VALUES (29998, 103);
+INSERT INTO ALUNO_PARTICIPA_TURMA(id_aluno, codigo_turma) VALUES (24543, 112);
+INSERT INTO ALUNO_PARTICIPA_TURMA(id_aluno, codigo_turma) VALUES (29998, 108);
+INSERT INTO ALUNO_PARTICIPA_TURMA(id_aluno, codigo_turma) VALUES (30102, 108);
+INSERT INTO ALUNO_PARTICIPA_TURMA(id_aluno, codigo_turma) VALUES (25182, 108);
+INSERT INTO ALUNO_PARTICIPA_TURMA(id_aluno, codigo_turma) VALUES (25182, 100);
+INSERT INTO ALUNO_PARTICIPA_TURMA(id_aluno, codigo_turma) VALUES (28212, 101);
+
+INSERT INTO TURMA_DANCA_COREO(codigo_turma, codigo_coreo) VALUES (100, 9526);
+INSERT INTO TURMA_DANCA_COREO(codigo_turma, codigo_coreo) VALUES (101, 5526);
+INSERT INTO TURMA_DANCA_COREO(codigo_turma, codigo_coreo) VALUES (107, 9846);
+INSERT INTO TURMA_DANCA_COREO(codigo_turma, codigo_coreo) VALUES (102, 9941);
+INSERT INTO TURMA_DANCA_COREO(codigo_turma, codigo_coreo) VALUES (112, 1172);
+INSERT INTO TURMA_DANCA_COREO(codigo_turma, codigo_coreo) VALUES (105, 7094);
+INSERT INTO TURMA_DANCA_COREO(codigo_turma, codigo_coreo) VALUES (113, 4131);
+INSERT INTO TURMA_DANCA_COREO(codigo_turma, codigo_coreo) VALUES (108, 4552);
+INSERT INTO TURMA_DANCA_COREO(codigo_turma, codigo_coreo) VALUES (106, 4146);
+INSERT INTO TURMA_DANCA_COREO(codigo_turma, codigo_coreo) VALUES (111, 5092);
+
+INSERT INTO COREO_TEM_MUSICA(codigo_coreo, nome_musica) VALUES (9526, 'Symphony No.5 in C minor');
+INSERT INTO COREO_TEM_MUSICA(codigo_coreo, nome_musica) VALUES (9526, 'Dance of the Knights');
+INSERT INTO COREO_TEM_MUSICA(codigo_coreo, nome_musica) VALUES (5526, 'O Leãozinho');
+INSERT INTO COREO_TEM_MUSICA(codigo_coreo, nome_musica) VALUES (5526, 'Voltei, Recife');
+INSERT INTO COREO_TEM_MUSICA(codigo_coreo, nome_musica) VALUES (5092, 'Poker Face');
+INSERT INTO COREO_TEM_MUSICA(codigo_coreo, nome_musica) VALUES (5092, 'Dear Mama');
+INSERT INTO COREO_TEM_MUSICA(codigo_coreo, nome_musica) VALUES (4552, 'Eine kleine Nachtmusik');
+INSERT INTO COREO_TEM_MUSICA(codigo_coreo, nome_musica) VALUES (4146, 'Toccata and Fugue in D minor');
+INSERT INTO COREO_TEM_MUSICA(codigo_coreo, nome_musica) VALUES (4131, 'Voltei, Recife');
+INSERT INTO COREO_TEM_MUSICA(codigo_coreo, nome_musica) VALUES (7094, 'Boléro');
+INSERT INTO COREO_TEM_MUSICA(codigo_coreo, nome_musica) VALUES (1172, 'Dance of the Knights');
+INSERT INTO COREO_TEM_MUSICA(codigo_coreo, nome_musica) VALUES (9941, 'Part of Me');
+INSERT INTO COREO_TEM_MUSICA(codigo_coreo, nome_musica) VALUES (9941, 'Symphony No.5 in C minor');
+INSERT INTO COREO_TEM_MUSICA(codigo_coreo, nome_musica) VALUES (9846, 'Eine kleine Nachtmusik');
+
+INSERT INTO COREOGRAFIA_CRIADA(cpf_prof, cpf_coreo, codigo_coreo) VALUES ('47172093038', '16237790063', 4131);
+INSERT INTO COREOGRAFIA_CRIADA(cpf_prof, cpf_coreo, codigo_coreo) VALUES ('47172093038', '45485681077', 9846);
+INSERT INTO COREOGRAFIA_CRIADA(cpf_prof, cpf_coreo, codigo_coreo) VALUES ('78702278912', '62452128040', 9526);
+INSERT INTO COREOGRAFIA_CRIADA(cpf_prof, cpf_coreo, codigo_coreo) VALUES ('78702278912', '62452128040', 5526);
+INSERT INTO COREOGRAFIA_CRIADA(cpf_prof, cpf_coreo, codigo_coreo) VALUES ('78702278912', '62452128040', 5092);
+INSERT INTO COREOGRAFIA_CRIADA(cpf_prof, cpf_coreo, codigo_coreo) VALUES ('78702278912', '15017874038', 4552);
+INSERT INTO COREOGRAFIA_CRIADA(cpf_prof, cpf_coreo, codigo_coreo) VALUES ('78702278912', '54175044086', 4146);
+INSERT INTO COREOGRAFIA_CRIADA(cpf_prof, cpf_coreo, codigo_coreo) VALUES ('78702278912', '09349743060', 7094);
+INSERT INTO COREOGRAFIA_CRIADA(cpf_prof, cpf_coreo, codigo_coreo) VALUES ('18295205048', '16759043081', 1172);
+INSERT INTO COREOGRAFIA_CRIADA(cpf_prof, cpf_coreo, codigo_coreo) VALUES ('18295205048', '16759043081', 9941);
+
+INSERT INTO FIGURINISTA_FAZ_FIGURINO(id_figurino, cpf_figurinista) VALUES (2211, '40800365070');
+INSERT INTO FIGURINISTA_FAZ_FIGURINO(id_figurino, cpf_figurinista) VALUES (8140, '40800365070');
+INSERT INTO FIGURINISTA_FAZ_FIGURINO(id_figurino, cpf_figurinista) VALUES (5847, '24126903089'); 
+INSERT INTO FIGURINISTA_FAZ_FIGURINO(id_figurino, cpf_figurinista) VALUES (1120, '61367909040'); 
+INSERT INTO FIGURINISTA_FAZ_FIGURINO(id_figurino, cpf_figurinista) VALUES (1483, '70541257030'); 
+INSERT INTO FIGURINISTA_FAZ_FIGURINO(id_figurino, cpf_figurinista) VALUES (6780, '70541257030'); 
+INSERT INTO FIGURINISTA_FAZ_FIGURINO(id_figurino, cpf_figurinista) VALUES (5663, '90008560005'); 
+INSERT INTO FIGURINISTA_FAZ_FIGURINO(id_figurino, cpf_figurinista) VALUES (8573, '95237179010'); 
+INSERT INTO FIGURINISTA_FAZ_FIGURINO(id_figurino, cpf_figurinista) VALUES (3977, '16337087054'); 
+INSERT INTO FIGURINISTA_FAZ_FIGURINO(id_figurino, cpf_figurinista) VALUES (7940, '55676296054'); 
+
+INSERT INTO COREO_TEM_FIGURINO(codigo_coreo, id_figurino) VALUES (9941, 8140);
+INSERT INTO COREO_TEM_FIGURINO(codigo_coreo, id_figurino) VALUES (9941, 2211);
+INSERT INTO COREO_TEM_FIGURINO(codigo_coreo, id_figurino) VALUES (5526, 5847);
+INSERT INTO COREO_TEM_FIGURINO(codigo_coreo, id_figurino) VALUES (9846, 7940);
+INSERT INTO COREO_TEM_FIGURINO(codigo_coreo, id_figurino) VALUES (1172, 3977);
+INSERT INTO COREO_TEM_FIGURINO(codigo_coreo, id_figurino) VALUES (7094, 8573);
+INSERT INTO COREO_TEM_FIGURINO(codigo_coreo, id_figurino) VALUES (7094, 5663);
+INSERT INTO COREO_TEM_FIGURINO(codigo_coreo, id_figurino) VALUES (4131, 6780);
+INSERT INTO COREO_TEM_FIGURINO(codigo_coreo, id_figurino) VALUES (4146, 1483);
+INSERT INTO COREO_TEM_FIGURINO(codigo_coreo, id_figurino) VALUES (4552, 1120);
+
+-- Selecione o nome dos professores que ministram aula de sapateado no bloco C
+SELECT DISTINCT P.nome_prof
+FROM PROFESSOR P, AULA A, PROF_MINISTRA_AULA PA
+WHERE P.cpf_prof = PA.cpf_prof
+AND A.codigo_aula = PA.codigo_aula
+AND A.estilo_de_dança = 'Sapateado'
+AND A.codigo_aula IN (SELECT AA.codigo_aula
+                        FROM SALA_DE_AULA S, AULA_POSSUI_SALA AA
+                        WHERE S.codigo_sala = AA.codigo_sala
+                        AND S.bloco = 'C');
+
+-- Selecione o nome dos professores que ministram aula para turmas do nível 1
+SELECT DISTINCT P.nome_prof
+FROM PROFESSOR P, AULA A, PROF_MINISTRA_AULA PA
+WHERE P.cpf_prof = PA.cpf_prof
+AND A.codigo_aula = PA.codigo_aula
+AND PA.codigo_aula IN (SELECT A.codigo_aula
+                        FROM AULA A, TURMA T, TURMA_TEM_AULA TA
+                        WHERE TA.codigo_aula = A.codigo_aula
+                        AND T.codigo_turma = TA.codigo_turma
+                        AND T.nivel = 1);
+                        
+-- Selecione o nome dos alunos que tem aula de sapateado ou de jazz
+SELECT DISTINCT A.nome_aluno
+FROM ALUNO A, TURMA T, ALUNO_PARTICIPA_TURMA APT
+WHERE A.id_aluno = APT.id_aluno
+AND T.codigo_turma = APT.codigo_turma
+AND APT.codigo_turma IN ((SELECT TA1.codigo_turma
+                            FROM AULA A1, TURMA_TEM_AULA TA1
+                            WHERE A1.codigo_aula = TA1.codigo_aula
+                            AND A1.estilo_de_dança = 'Sapateado')
+                            UNION
+                            (SELECT TA2.codigo_turma
+                                FROM AULA A2, TURMA_TEM_AULA TA2
+                                WHERE A2.codigo_aula = TA2.codigo_aula
+                                AND A2.estilo_de_dança = 'Jazz'));
+                                
+-- Selecione o tema das coreografias tais que todas as músicas tenham duração maior do que 4:00 minutos
+SELECT DISTINCT C.tema
+FROM COREOGRAFIA C
+WHERE NOT EXISTS (SELECT M.nome_musica
+                    FROM MUSICA M, COREO_TEM_MUSICA CM
+                    WHERE M.nome_musica = CM.nome_musica
+                    AND C.codigo_coreo = CM.codigo_coreo
+                    AND M.duracao_musica < '4:00');
+
+-- Selecione o nível da turma com o nível mais alto
+SELECT T.nivel
+FROM TURMA T
+WHERE T.nivel = (SELECT MAX(T2.nivel)
+                            FROM TURMA T2);
+
+-- Selecione o nome dos alunos que dançaram na coreografia cisne
+SELECT DISTINCT A.nome_aluno
+FROM ALUNO A, ALUNO_PARTICIPA_TURMA AA
+WHERE A.id_aluno = AA.id_aluno
+AND AA.codigo_turma IN (SELECT TC.codigo_turma
+                        FROM TURMA T, COREOGRAFIA C, TURMA_DANCA_COREO TC
+                        WHERE T.codigo_turma = TC.codigo_turma
+                        AND C.codigo_coreo = TC.codigo_coreo
+                        AND C.tema = 'Cisne');
+
+-- Selecione o tema das coreografias que foram criadas pelo professor Jayson Félix Aldeia e pelo coreógrafo
+-- Iago Castanheira Pegado
+SELECT DISTINCT C.tema
+FROM COREOGRAFIA C, COREOGRAFIA_CRIADA CC, PROFESSOR P
+WHERE CC.codigo_coreo = C.codigo_coreo
+AND CC.cpf_prof = P.cpf_prof
+AND P.nome_prof = 'Jayson Félix Aldeia'
+AND C.codigo_coreo IN (SELECT CC2.codigo_coreo
+                        FROM COREOGRAFIA C2, COREOGRAFIA_CRIADA CC2, COREOGRAFO CO2
+                        WHERE C2.codigo_coreo = CC2.codigo_coreo
+                        AND CC2.cpf_coreo = CO2.cpf_coreo
+                        AND CO2.nome_coreo = 'Iago Castanheira Pegado');
+
+-- Selecione as salas de aula que têm aula de sapateado mas não têm aula de ballet contemporâneo
+SELECT DISTINCT S.codigo_sala
+FROM SALA_DE_AULA S, AULA A, AULA_POSSUI_SALA AP
+WHERE AP.codigo_aula = A.codigo_aula
+AND AP.codigo_sala = S.codigo_sala
+AND A.estilo_de_dança = 'Sapateado'
+AND AP.codigo_sala NOT IN (SELECT S2.codigo_sala
+                    FROM SALA_DE_AULA S2, AULA A2, AULA_POSSUI_SALA AP2
+                    WHERE AP2.codigo_aula = A2.codigo_aula
+                    AND AP2.codigo_sala = S2.codigo_sala
+                    AND A2.estilo_de_dança = 'Ballet Contemporâneo');
+                    
+-- Selecione o nome de todos os alunos que têm aula com o professor Marco Neres Castanho
+SELECT DISTINCT A.nome_aluno
+FROM ALUNO A, TURMA T, ALUNO_PARTICIPA_TURMA APT
+WHERE APT.id_aluno = A.id_aluno
+AND APT.codigo_turma = T.codigo_turma
+AND APT.codigo_turma IN (SELECT TTA.codigo_turma
+                            FROM TURMA T2, AULA AU, TURMA_TEM_AULA TTA
+                            WHERE T2.codigo_turma = TTA.codigo_turma
+                            AND TTA.codigo_aula = AU.codigo_aula
+                            AND TTA.codigo_aula IN (SELECT PM.codigo_aula
+                                                    FROM PROFESSOR P, AULA AU2, PROF_MINISTRA_AULA PM
+                                                    WHERE PM.codigo_aula = AU2.codigo_aula
+                                                    AND PM.cpf_prof = P.cpf_prof
+                                                    AND P.nome_prof = 'Marco Neres Castanho'));
+
+-- Selecione o nome dos figurinistas que NÃO fizeram um figurino para a coreografia baile
+SELECT DISTINCT F.nome_figurinista
+FROM FIGURINISTA F, FIGURINO FO, FIGURINISTA_FAZ_FIGURINO FF
+WHERE FF.cpf_figurinista = F.cpf_figurinista
+AND FF.id_figurino = FO.id_figurino    
+AND FF.id_figurino NOT IN (SELECT CF.id_figurino
+							FROM COREOGRAFIA C, COREO_TEM_FIGURINO CF
+							WHERE C.codigo_coreo = CF.codigo_coreo
+							AND C.tema = 'Baile');
+
+
+
+ 
